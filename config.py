@@ -6,7 +6,7 @@ load_dotenv()
 DB_HOST: str = os.getenv("DB_HOST", "localhost")
 DB_PORT: int = int(os.getenv("DB_PORT", "5432"))
 DB_NAME: str = os.getenv("DB_NAME", "news_portal")
-DB_USER: str = os.getenv("DB_USER", "postgres")
+DB_USER: str = os.getenv("DB_USERNAME", os.getenv("DB_USER", "postgres"))
 DB_PASSWORD: str = os.getenv("DB_PASSWORD", "postgres")
 
 ALPHA: float = float(os.getenv("ALPHA", "0.7"))
