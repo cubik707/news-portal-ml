@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -35,7 +37,7 @@ def _build_doc(article: dict[str, Any]) -> str:
     return " ".join(p for p in parts if p)
 
 
-def recommend(user_id: str, limit: int = 10) -> list[str]:
+def recommend(user_id: str, limit: int = 10) -> List[str]:
     articles = database.get_published_news()
     if not articles:
         return []
@@ -78,7 +80,7 @@ def recommend(user_id: str, limit: int = 10) -> list[str]:
         for nid in sub_news_ids:
             _add(nid, WEIGHT_SUBSCRIPTION)
 
-    user_profile: np.ndarray | None = None
+    user_profile: Optional[np.ndarray] = None
     if total_weight > 0:
         norm = np.linalg.norm(weighted_sum)
         if norm > 0:

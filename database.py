@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict, List
 import psycopg2
 import psycopg2.extras
 import config
@@ -14,7 +14,7 @@ def _connect():
     )
 
 
-def get_published_news() -> list[dict[str, Any]]:
+def get_published_news() -> List[Dict[str, Any]]:
     """Return all published articles with category name and aggregated tag names."""
     sql = """
         SELECT
@@ -38,7 +38,7 @@ def get_published_news() -> list[dict[str, Any]]:
             return [dict(row) for row in cur.fetchall()]
 
 
-def get_user_interactions(user_id: str) -> dict[str, list]:
+def get_user_interactions(user_id: str) -> Dict[str, list]:
     """Return all interaction signals for a given user."""
     with _connect() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
@@ -75,7 +75,7 @@ def get_user_interactions(user_id: str) -> dict[str, list]:
     }
 
 
-def get_news_ids_by_categories(category_ids: list[str]) -> list[str]:
+def get_news_ids_by_categories(category_ids: List[str]) -> List[str]:
     """Return IDs of published articles belonging to given categories."""
     if not category_ids:
         return []
