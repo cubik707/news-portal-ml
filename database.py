@@ -11,6 +11,7 @@ def _connect():
         dbname=config.DB_NAME,
         user=config.DB_USER,
         password=config.DB_PASSWORD,
+        options="-c client_encoding=UTF8",
     )
 
 
@@ -82,7 +83,7 @@ def get_news_ids_by_categories(category_ids: List[str]) -> List[str]:
     sql = """
         SELECT id FROM news
         WHERE status = 'published'
-          AND category_id = ANY(%s)
+          AND category_id = ANY(%s::uuid[])
     """
     with _connect() as conn:
         with conn.cursor() as cur:
